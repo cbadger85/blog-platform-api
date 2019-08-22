@@ -2,18 +2,15 @@
   "name": "blog-platform-api",
   "version": "1.0.0",
   "description": "REST API for a blog platform",
+  "author": "Charles Badger",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cbadger85/blog-platform-api.git"
+  },
   "scripts": {
     "start": "nodemon",
     "test": "jest"
   },
-  "keywords": [
-    "blog",
-    "node",
-    "express",
-    "mongodb"
-  ],
-  "author": "Charles Badger",
-  "license": "MIT",
   "dependencies": {
     "@hapi/joi": "^15.1.1",
     "bcryptjs": "^2.4.3",
