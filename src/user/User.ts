@@ -1,0 +1,45 @@
+import { Document, model, Model, Schema } from 'mongoose';
+import uniqueValidator from 'mongoose-unique-validator';
+import uuid from 'uuid/v4';
+import { IPermissions } from './types';
+
+export interface IUserModel extends Document {
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+  permissions: IPermissions[];
+  sessionId: string;
+  roles: string[];
+}
+
+export const UserSchema = new Schema({
+  name: String,
+  username: {
+    type: String,
+    unique: true,
+    required: true,
+    uniqueCaseInsensitive: true,
+  },
+  email: {
+    type: String,
+    unique: true,
+    required: true,
+    uniqueCaseInsensitive: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  permissions: {
+    type: [String],
+  },
+  sessionId: {
+    type: String,
+    default: uuid(),
+  },
+});
+
+UserSchema.plugin(uniqueValidator);
+
+export const User: Model<IUserModel> = model<IUserModel>('User', UserSchema);
