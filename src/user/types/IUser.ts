@@ -8,5 +8,4 @@ export interface IUser {
   password: string;
   permissions: IPermissions[];
   sessionId: string;
-  roles: string[];
 }

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import { BaseError } from 'src/errors/BaseError';
+import { BaseError } from '../utils/errors';
 import { Error as MongooseError } from 'mongoose';
-import { NotFound } from '../errors';
+import { NotFound } from '../utils/errors';
 
 const resourceNotFound = (req: Request, res: Response, next: NextFunction) => {
   const err = new NotFound('Error, resource not found');
@@ -50,7 +50,7 @@ const listErrorsHandler = (
   res.status(err.statusCode || 500).json({
     statusCode: err.statusCode || 500,
     name: err.name,
-    message: [err.errors],
+    message: err.errors,
   });
 };
 

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
-import { BadRequest } from '../errors';
+import { BadRequest } from '../utils/errors';
 import { ParamsDictionary } from 'express-serve-static-core';
 
 export const invalidMongooseId = (...args: string[]) => {

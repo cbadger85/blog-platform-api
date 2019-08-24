@@ -10,7 +10,6 @@ export interface IUserModel extends Document {
   password: string;
   permissions: IPermissions[];
   sessionId: string;
-  roles: string[];
 }
 
 export const UserSchema = new Schema({

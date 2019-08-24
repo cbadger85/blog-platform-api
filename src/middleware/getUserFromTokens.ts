@@ -1,7 +1,7 @@
 import { NextFunction, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { User } from '../user/User';
-import { createTokens } from '../utils/createTokens';
+import { createTokens } from '../utils';
 import { IAccessToken, IRefreshToken, IUserRequest } from '../auth/types';
 
 export const getUserFromTokens = () => {
@@ -15,10 +15,8 @@ export const getUserFromTokens = () => {
 
     if (accessToken) {
       try {
-        const accessTokenData = jwt.verify(
-          accessToken,
-          'secret'
-        ) as IAccessToken;
+        const accessTokenData = jwt.verify(accessToken, process.env
+          .ACCESS_TOKEN_SECRET as string) as IAccessToken;
 
         req.user = {
           name: accessTokenData.name,
@@ -27,14 +25,14 @@ export const getUserFromTokens = () => {
         };
 
         return next();
-      } catch {}
+      } catch (e) {
+        console.log('!!!!!', e);
+      }
     }
 
     try {
-      const refreshTokenData = jwt.verify(
-        refreshToken,
-        'super-secret'
-      ) as IRefreshToken;
+      const refreshTokenData = jwt.verify(refreshToken, process.env
+        .REFRESH_TOKEN_SECRET as string) as IRefreshToken;
 
       const user = await User.findById(refreshTokenData.id);
 
@@ -63,7 +61,7 @@ export const getUserFromTokens = () => {
       req.user = {
         name: user.name,
         id: user.id,
-        roles: user.roles,
+        roles: user.permissions,
       };
 
       return next();

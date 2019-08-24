@@ -6,6 +6,6 @@ export class Unauthorized extends Error implements BaseError {
     public statusCode: number = 401
   ) {
     super(message);
-    this.name = 'Not Found';
+    this.name = 'Not Authorized';
   }
 }

@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { NextFunction, Request, Response } from 'express';
-import { NotFound } from '../errors';
+import { NotFound } from '../utils/errors';
 import { IUser } from './types';
 import { User } from './User';
 import { ParamsDictionary } from 'express-serve-static-core';

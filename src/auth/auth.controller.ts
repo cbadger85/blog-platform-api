@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { ILoginDto } from './types';
 import { User } from '../user/User';
-import { Unauthorized } from '../errors/Unauthorized';
+import { Unauthorized } from '../utils/errors';
 import bcrypt from 'bcryptjs';
-import { createTokens } from '../utils/createTokens';
+import { createTokens } from '../utils';
 
 export const login = async (
   req: Request,

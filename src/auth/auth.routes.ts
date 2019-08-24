@@ -1,5 +1,5 @@
 import Express from 'express';
-import { asyncErrorHandler } from '../utils/asyncErrorHandler';
+import { asyncErrorHandler } from '../utils';
 import { login, logout } from './auth.controller';
 
 export const authRouter = Express.Router();

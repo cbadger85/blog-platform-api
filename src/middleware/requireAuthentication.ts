@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import { Unauthorized } from '../errors/Unauthorized';
+import { NextFunction, Response } from 'express';
 import { IUserRequest } from 'src/auth/types';
+import { Unauthorized } from '../utils/errors';
 
 export const requireAuthentication = () => {
   return (req: IUserRequest, res: Response, next: NextFunction) => {
