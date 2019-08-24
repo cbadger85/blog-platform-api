@@ -12,20 +12,29 @@ import bcrypt from 'bcryptjs';
     console.error(e.message);
   });
 
-  const hashedPassword = await bcrypt.hash(
-    process.env.ADMIN_PASSWORD as string,
-    10
-  );
+  const name = process.env.ADMIN_NAME as string;
+  const username = process.env.ADMIN_USERNAME as string;
+  const email = process.env.ADMIN_EMAIL as string;
+  const password = process.env.ADMIN_PASSWORD as string;
+
+  const userExists = await User.findOne(username);
+
+  if (userExists) {
+    console.log(`${userExists.username} already exists`);
+    await mongoose.disconnect();
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
     const user = await User.create({
-      name: process.env.ADMIN_NAME,
-      username: process.env.ADMIN_USERNAME,
-      email: process.env.ADMIN_EMAIL,
+      name,
+      username,
+      email,
       password: hashedPassword,
     });
 
-    console.log(`${user.name} created successfully`);
+    console.log(`${user.username} created successfully`);
   } catch (e) {
     console.error(e);
   }

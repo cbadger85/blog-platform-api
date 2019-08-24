@@ -7,6 +7,7 @@ import { userRouter } from './user/user.routes';
 import { authRouter } from './auth/auth.routes';
 import cookieParser from 'cookie-parser';
 import { getUserFromTokens } from './middleware/getUserFromTokens';
+import { asyncErrorHandler } from './utils';
 
 mongoose.connect(process.env.MONGODB_URL as string, {
   useNewUrlParser: true,
@@ -26,7 +27,7 @@ app.use(cookieParser());
 
 app.use(cors({ origin: process.env.ADMIN_UI_URL }));
 
-app.use(getUserFromTokens() as Handler);
+app.use(asyncErrorHandler(getUserFromTokens()));
 
 app.use('/users', userRouter);
 app.use('/auth', authRouter);

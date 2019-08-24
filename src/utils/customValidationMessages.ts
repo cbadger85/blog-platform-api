@@ -13,6 +13,9 @@ export const customValidationMessages = (
       case 'any.empty':
         e.message = `Error, '${e.context!.key}' is required`;
         break;
+      case 'any.required':
+        e.message = `Error, '${e.context!.key}' is required`;
+        break;
       case 'string.email':
         e.message = `Error, '${e.context!.key}' not valid`;
         break;
@@ -23,6 +26,9 @@ export const customValidationMessages = (
         }
 
         e.message = `Error, '${e.context!.key}' is invalid`;
+        break;
+      case 'object.allowUnknown':
+        e.message = `Error, '${e.context!.key}' is not allowed`;
         break;
       default:
         break;

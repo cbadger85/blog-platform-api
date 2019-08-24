@@ -8,6 +8,7 @@ export const validate = (schema: Schema) => {
 
     if (result.error) {
       const error = new BadRequest('Error, invalid input');
+      console.log(result.error.details);
       error.errors = result.error.details.map(detail => detail.message);
       return next(error);
     }
