@@ -11,7 +11,7 @@ export const createTokens = (user: IUserModel): createdTokens => {
     {
       id: user.id,
       name: user.name,
-      roles: user.permissions,
+      permissions: user.permissions,
     },
     process.env.ACCESS_TOKEN_SECRET as string,
     {

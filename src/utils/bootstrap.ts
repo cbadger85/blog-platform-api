@@ -1,13 +1,20 @@
 import mongoose from 'mongoose';
 import { User } from '../user/User';
 import bcrypt from 'bcryptjs';
+import { IPermissions } from '../user/types';
 
 (async function bootstrap() {
-  await mongoose.connect(process.env.MONGODB_URL as string, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-  });
   mongoose.Promise = global.Promise;
+
+  try {
+    await mongoose.connect(process.env.MONGODB_URL as string, {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+    });
+  } catch (e) {
+    console.error(e);
+  }
+
   await mongoose.connection.on('error', e => {
     console.error(e.message);
   });
@@ -36,6 +43,7 @@ import bcrypt from 'bcryptjs';
       username,
       email,
       password: hashedPassword,
+      permissions: [IPermissions.USER_MANAGEMENT],
     });
 
     console.log(`${user.username} created successfully`);

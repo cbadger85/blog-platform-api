@@ -1,19 +1,22 @@
 import bodyParser from 'body-parser';
-import cors from 'cors';
-import Express, { Handler } from 'express';
-import mongoose from 'mongoose';
-import { errorHandlers } from './middleware';
-import { userRouter } from './user/user.routes';
-import { authRouter } from './auth/auth.routes';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import Express from 'express';
+import mongoose from 'mongoose';
+import { authRouter } from './auth/auth.routes';
+import { errorHandlers } from './middleware';
 import { getUserFromTokens } from './middleware/getUserFromTokens';
+import { userRouter } from './user/user.routes';
 import { asyncErrorHandler } from './utils';
+
+mongoose.Promise = global.Promise;
 
 mongoose.connect(process.env.MONGODB_URL as string, {
   useNewUrlParser: true,
   useCreateIndex: true,
+  useFindAndModify: false,
 });
-mongoose.Promise = global.Promise;
+
 mongoose.connection.on('error', e => {
   console.error(e.message);
 });

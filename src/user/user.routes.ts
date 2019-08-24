@@ -1,16 +1,21 @@
 import Express, { Handler } from 'express';
-import {
-  createUser,
-  getAllUsers,
-  getUser,
-  changePassword,
-} from './user.controller';
-import { asyncErrorHandler } from '../utils';
 import { invalidMongooseId } from '../middleware/invalidMoongooseId';
 import { requireAuthentication } from '../middleware/requireAuthentication';
 import { validate } from '../middleware/validate';
-import { createUserValidationSchema } from '../user/validationSchemas';
-import { changePasswordValidationSchema } from '../user/validationSchemas/changePasswordValidationSchema';
+import {
+  changePasswordValidationSchema,
+  createUserValidationSchema,
+  changeEmailValidationSchema,
+} from '../user/validationSchemas';
+import {} from '../user/validationSchemas/changePasswordValidationSchema';
+import { asyncErrorHandler } from '../utils';
+import {
+  changePassword,
+  createUser,
+  getAllUsers,
+  getUser,
+  changeEmail,
+} from './user.controller';
 
 export const userRouter = Express.Router();
 
@@ -33,4 +38,11 @@ userRouter.put(
   invalidMongooseId('userId'),
   validate(changePasswordValidationSchema),
   asyncErrorHandler(changePassword)
+);
+
+userRouter.put(
+  '/:userId/email',
+  invalidMongooseId('userId'),
+  validate(changeEmailValidationSchema),
+  asyncErrorHandler(changeEmail)
 );

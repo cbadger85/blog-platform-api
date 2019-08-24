@@ -1,11 +1,12 @@
 import bcrypt from 'bcryptjs';
 import { NextFunction, Request, Response } from 'express';
-import { NotFound, BadRequest } from '../utils/errors';
-import { IUser } from './types';
+import { NotFound, BadRequest, Forbidden } from '../utils/errors';
+import { IUser, IPermissions } from './types';
 import { User } from './User';
 import { ParamsDictionary } from 'express-serve-static-core';
 import { IUserRequest } from '../auth/types';
 import { IChangePasswordBody } from 'src/user/types/IChangePasswordBody';
+import { IChangeEmail } from '../user/types/IChangeEmail';
 
 export const createUser = async (req: Request, res: Response) => {
   const { password, ...user } = req.body as IUser;
@@ -62,11 +63,11 @@ export const changePassword = async (
   next: NextFunction
 ) => {
   const { currentPassword, password } = req.body as IChangePasswordBody;
-  const user = await User.findById(req.user.id);
   const { userId } = req.params as ParamsDictionary;
+  const user = await User.findById(userId);
 
   if (!user || user.id !== userId) {
-    const error = new NotFound('Error, no user found');
+    const error = new Forbidden();
     return next(error);
   }
 
@@ -82,6 +83,35 @@ export const changePassword = async (
   const updatedUser = await User.findByIdAndUpdate(user.id, {
     password: newPassword,
   }).lean();
+
+  const { password: _, sessionId, ...sanitizedUser } = updatedUser;
+
+  res.json(sanitizedUser);
+};
+
+export const changeEmail = async (
+  req: IUserRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  const { email } = req.body as IChangeEmail;
+  const { userId } = req.params as ParamsDictionary;
+  const user = await User.findById(userId);
+
+  if (
+    !user ||
+    user.id !== userId ||
+    !req.user.permissions.includes(IPermissions.USER_MANAGEMENT)
+  ) {
+    const error = new Forbidden();
+    return next(error);
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    { email },
+    { runValidators: true, context: 'query', new: true }
+  ).lean();
 
   const { password: _, sessionId, ...sanitizedUser } = updatedUser;
 

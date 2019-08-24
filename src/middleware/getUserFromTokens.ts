@@ -21,7 +21,7 @@ export const getUserFromTokens = () => {
         req.user = {
           name: accessTokenData.name,
           id: accessTokenData.id,
-          roles: accessTokenData.roles,
+          permissions: accessTokenData.permissions,
         };
 
         return next();
@@ -61,7 +61,7 @@ export const getUserFromTokens = () => {
       req.user = {
         name: user.name,
         id: user.id,
-        roles: user.permissions,
+        permissions: user.permissions,
       };
 
       return next();
