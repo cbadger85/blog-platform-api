@@ -17,11 +17,15 @@ import bcrypt from 'bcryptjs';
   const email = process.env.ADMIN_EMAIL as string;
   const password = process.env.ADMIN_PASSWORD as string;
 
-  const userExists = await User.findOne(username);
+  try {
+    const userExists = await User.findOne({ username });
 
-  if (userExists) {
-    console.log(`${userExists.username} already exists`);
-    await mongoose.disconnect();
+    if (userExists) {
+      console.log(`${userExists.username} already exists`);
+      await mongoose.disconnect();
+    }
+  } catch (e) {
+    console.error(e);
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);

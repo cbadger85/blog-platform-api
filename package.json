@@ -8,7 +8,7 @@
     "url": "git+https://github.com/cbadger85/blog-platform-api.git"
   },
   "scripts": {
-    "start": "nodemon",
+    "start": "npm run bootstrap && nodemon",
     "test": "jest",
     "bootstrap": "ts-node ./src/utils/bootstrap.ts"
   },
