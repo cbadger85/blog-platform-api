@@ -13,10 +13,14 @@ export interface IUserModel extends Document {
 }
 
 export const UserSchema = new Schema({
-  name: String,
+  name: {
+    type: String,
+    trim: true,
+  },
   username: {
     type: String,
     unique: true,
+    trim: true,
     required: true,
     uniqueCaseInsensitive: true,
   },
@@ -24,6 +28,7 @@ export const UserSchema = new Schema({
     type: String,
     unique: true,
     required: true,
+    trim: true,
     uniqueCaseInsensitive: true,
   },
   password: {
