@@ -3,8 +3,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import Express from 'express';
 import { authRouter } from './auth/auth.routes';
-import { errorHandlers, logger } from './middleware';
-import { getUserFromTokens } from './middleware/getUserFromTokens';
+import { errorHandlers, logger, getUserFromTokens } from './middleware';
 import { userRouter } from './user/user.routes';
 import { asyncErrorHandler } from './utils';
 
