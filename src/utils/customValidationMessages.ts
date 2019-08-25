@@ -21,7 +21,9 @@ export const customValidationMessages = (
         break;
       case 'string.regex.base':
         if (e.context!.key === 'password') {
-          e.message = `Error, '${e.context!.key}' must be a valid password`;
+          e.message = `Error, '${
+            e.context!.key
+          }' must be between 6 and 20 characters, and must contain one upper-case character, one lowercase character, and at least one number or special character`;
           break;
         }
 
