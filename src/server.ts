@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { app } from './app';
+import 'colors';
 
 mongoose.Promise = global.Promise;
 
@@ -10,7 +11,7 @@ mongoose.connect(process.env.MONGODB_URL as string, {
 });
 
 mongoose.connection.on('error', e => {
-  console.error(e.message);
+  console.error(e.message.red);
 });
 
 app.listen(7777, () => {

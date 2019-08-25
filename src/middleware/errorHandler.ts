@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { BaseError } from '../utils/errors';
 import { Error as MongooseError } from 'mongoose';
 import { NotFound } from '../utils/errors';
+import colors from 'colors/safe';
 
 const resourceNotFound = (req: Request, res: Response, next: NextFunction) => {
   const err = new NotFound('Error, resource not found');
@@ -14,7 +15,7 @@ const logError = (
   res: Response,
   next: NextFunction
 ) => {
-  console.error(err);
+  console.error(colors.red((err as unknown) as string));
 
   return next(err);
 };

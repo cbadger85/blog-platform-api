@@ -10,7 +10,8 @@ export const logger = () => (
   console.log(
     date.toDateString().yellow,
     date.toLocaleTimeString().yellow,
-    req.method.padStart(20).yellow.bold,
+    '|'.cyan,
+    req.method.yellow.bold,
     req.path.yellow
   );
   next();
