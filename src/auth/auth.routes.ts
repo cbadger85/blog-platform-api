@@ -1,6 +1,6 @@
 import Express from 'express';
 import { asyncErrorHandler } from '../utils';
-import { login, logout } from './auth.controller';
+import { login, logout } from './controllers';
 
 export const authRouter = Express.Router();
 

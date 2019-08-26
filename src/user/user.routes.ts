@@ -11,16 +11,25 @@ import {
 } from '../user/validationSchemas';
 import { asyncErrorHandler } from '../utils';
 import {
-  changeEmail,
-  changePassword,
   createUser,
   getAllUsers,
   getUser,
-} from './user.controller';
+  changePassword,
+  changeEmail,
+  disableUser,
+} from './controllers';
 
 export const userRouter = Express.Router();
 
 userRouter.use(requireAuthentication() as Handler);
+
+userRouter.get('/', asyncErrorHandler(getAllUsers));
+
+userRouter.post(
+  '/',
+  validate(createUserValidationSchema),
+  asyncErrorHandler(createUser)
+);
 
 userRouter.get(
   '/:userId',
@@ -28,12 +37,6 @@ userRouter.get(
   asyncErrorHandler(getUser)
 );
 
-userRouter.get('/', asyncErrorHandler(getAllUsers));
-userRouter.post(
-  '/',
-  validate(createUserValidationSchema),
-  asyncErrorHandler(createUser)
-);
 userRouter.put(
   '/:userId/password',
   invalidMongooseId('userId'),
@@ -46,4 +49,10 @@ userRouter.put(
   invalidMongooseId('userId'),
   validate(changeEmailValidationSchema),
   asyncErrorHandler(changeEmail)
+);
+
+userRouter.put(
+  '/:userId/disable',
+  invalidMongooseId('userId'),
+  asyncErrorHandler(disableUser)
 );
