@@ -1,10 +1,12 @@
 import 'colors';
 import colors from 'colors/safe';
 import mongoose from 'mongoose';
-import { asyncFiglet } from './utils';
+import { asyncFiglet, randomChar } from './utils';
 import { app } from './app';
 
 (async function Server() {
+  const wallFiglet = await asyncFiglet(randomChar(), { font: 'Efti Wall' });
+  console.log(colors.blue(wallFiglet as string));
   console.log(colors.yellow('Starting server...'));
 
   mongoose.Promise = global.Promise;
