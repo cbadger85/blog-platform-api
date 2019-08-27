@@ -38,7 +38,7 @@ userRouter.get(
 );
 
 userRouter.put(
-  '/:userId/password',
+  '/:userId/password/change',
   invalidMongooseId('userId'),
   validate(changePasswordValidationSchema),
   asyncErrorHandler(changePassword)

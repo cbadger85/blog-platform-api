@@ -22,9 +22,11 @@ import { app } from './app';
   const PORT = process.env.PORT || 7777;
 
   app.listen(PORT, async () => {
-    const portFiglet = await asyncFiglet(`Server Started`, { font: 'Slant' });
+    const serverFiglet = await asyncFiglet(`Server Started`, {
+      font: 'Rounded',
+    });
 
-    console.log(colors.green(portFiglet as string));
+    console.log(colors.green(serverFiglet as string));
     console.log(colors.green(`App is listening on port ${PORT}`));
   });
 })().catch(e => console.error(e));
