@@ -1,13 +1,19 @@
-import mongoose from 'mongoose';
-import { User } from '../user/User';
 import bcrypt from 'bcryptjs';
-import { IPermissions } from '../user/types';
 import 'colors';
+import colors from 'colors/safe';
+import mongoose from 'mongoose';
+import { asyncFiglet } from '../utils/asyncFiglet';
+import { IPermissions } from '../user/types';
+import { User } from '../user/User';
 
 (async function bootstrap() {
   mongoose.Promise = global.Promise;
 
-  console.log('Creating default admin account...'.cyan);
+  const figlet = await asyncFiglet('Bootstraping...', {
+    font: 'Slant',
+  }).catch();
+
+  console.log(colors.cyan(figlet as string));
 
   try {
     await mongoose.connect(process.env.MONGODB_URL as string, {

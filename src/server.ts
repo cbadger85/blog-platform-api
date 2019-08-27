@@ -1,19 +1,30 @@
-import mongoose from 'mongoose';
-import { app } from './app';
 import 'colors';
+import colors from 'colors/safe';
+import mongoose from 'mongoose';
+import { asyncFiglet } from './utils';
+import { app } from './app';
 
-mongoose.Promise = global.Promise;
+(async function Server() {
+  console.log(colors.yellow('Starting server...'));
 
-mongoose.connect(process.env.MONGODB_URL as string, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-});
+  mongoose.Promise = global.Promise;
 
-mongoose.connection.on('error', e => {
-  console.error(e.message.red);
-});
+  await mongoose.connect(process.env.MONGODB_URL as string, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  });
 
-app.listen(7777, () => {
-  console.log('App is listening on port 7777');
-});
+  await mongoose.connection.on('error', e => {
+    console.error(e.message.red);
+  });
+
+  const PORT = process.env.PORT || 7777;
+
+  app.listen(PORT, async () => {
+    const portFiglet = await asyncFiglet(`Server Started`, { font: 'Slant' });
+
+    console.log(colors.green(portFiglet as string));
+    console.log(colors.green(`App is listening on port ${PORT}`));
+  });
+})().catch(e => console.error(e));
