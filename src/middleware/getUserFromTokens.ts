@@ -25,9 +25,7 @@ export const getUserFromTokens = () => {
         };
 
         return next();
-      } catch (e) {
-        console.log('!!!!!', e);
-      }
+      } catch (e) {}
     }
 
     try {

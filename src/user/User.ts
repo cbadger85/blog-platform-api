@@ -42,6 +42,8 @@ export const UserSchema = new Schema({
     type: String,
     default: uuid(),
   },
+  resetPasswordId: String,
+  resetPasswordExpiration: Date,
 });
 
 UserSchema.plugin(uniqueValidator);

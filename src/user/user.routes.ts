@@ -1,23 +1,20 @@
 import Express, { Handler } from 'express';
+import { requireAuthentication, validate } from '../middleware';
+import { asyncErrorHandler } from '../utils';
 import {
-  invalidMongooseId,
-  requireAuthentication,
-  validate,
-} from '../middleware';
+  changeEmail,
+  changePassword,
+  createUser,
+  disableUser,
+  getAllUsers,
+  getUser,
+} from './controllers';
 import {
   changeEmailValidationSchema,
   changePasswordValidationSchema,
   createUserValidationSchema,
-} from '../user/validationSchemas';
-import { asyncErrorHandler } from '../utils';
-import {
-  createUser,
-  getAllUsers,
-  getUser,
-  changePassword,
-  changeEmail,
-  disableUser,
-} from './controllers';
+} from './validationSchemas/body';
+import { userIdParamsValidation } from './validationSchemas/urlParams';
 
 export const userRouter = Express.Router();
 
@@ -27,32 +24,36 @@ userRouter.get('/', asyncErrorHandler(getAllUsers));
 
 userRouter.post(
   '/',
-  validate(createUserValidationSchema),
+  validate({ body: createUserValidationSchema }),
   asyncErrorHandler(createUser)
 );
 
 userRouter.get(
   '/:userId',
-  invalidMongooseId('userId'),
+  validate({ urlParams: userIdParamsValidation }),
   asyncErrorHandler(getUser)
 );
 
 userRouter.put(
   '/:userId/password/change',
-  invalidMongooseId('userId'),
-  validate(changePasswordValidationSchema),
+  validate({
+    body: changePasswordValidationSchema,
+    urlParams: userIdParamsValidation,
+  }),
   asyncErrorHandler(changePassword)
 );
 
 userRouter.put(
   '/:userId/email',
-  invalidMongooseId('userId'),
-  validate(changeEmailValidationSchema),
+  validate({
+    body: changeEmailValidationSchema,
+    urlParams: userIdParamsValidation,
+  }),
   asyncErrorHandler(changeEmail)
 );
 
 userRouter.put(
   '/:userId/disable',
-  invalidMongooseId('userId'),
+  validate({ urlParams: userIdParamsValidation }),
   asyncErrorHandler(disableUser)
 );

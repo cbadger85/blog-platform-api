@@ -32,6 +32,9 @@ export const customValidationMessages = (
       case 'object.allowUnknown':
         e.message = `Error, '${e.context!.key}' is not allowed`;
         break;
+      case 'string.mongoObjectId':
+        e.message = `Error, '${e.context!.key}' is an invalid ObjectId`;
+        break;
       default:
         break;
     }

@@ -10,7 +10,7 @@ import { User } from '../user/User';
   mongoose.Promise = global.Promise;
 
   const figlet = await asyncFiglet('Bootstraping...', {
-    font: 'Slant',
+    font: 'Rounded',
   }).catch();
 
   console.log(colors.cyan(figlet as string));

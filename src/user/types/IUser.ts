@@ -8,4 +8,6 @@ export interface IUser {
   password: string;
   permissions: IPermissions[];
   sessionId: string;
+  resetPasswordId: string;
+  resetPasswordExpiration: Date;
 }

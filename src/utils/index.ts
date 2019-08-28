@@ -5,3 +5,4 @@ export * from './passwordRegExp';
 export * from './sanitizeUser';
 export * from './asyncFiglet';
 export * from './randomChar';
+export * from './mongoJoi';

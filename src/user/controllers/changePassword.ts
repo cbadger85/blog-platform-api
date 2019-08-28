@@ -35,9 +35,13 @@ export const changePassword = async (
 
   const newPassword = await bcrypt.hash(password, 10);
 
-  const updatedUser = await User.findByIdAndUpdate(user.id, {
-    password: newPassword,
-  }).lean();
+  const updatedUser = await User.findByIdAndUpdate(
+    user.id,
+    {
+      password: newPassword,
+    },
+    { new: true }
+  ).lean();
 
   res.json(sanitizeUser(updatedUser));
 };
