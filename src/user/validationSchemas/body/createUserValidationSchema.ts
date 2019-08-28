@@ -1,5 +1,5 @@
 import Joi from '@hapi/joi';
-import { customValidationMessages, passwordRegExp } from '../../../utils';
+import { customValidationMessages } from '../../../utils';
 
 export const createUserValidationSchema = Joi.object()
   .keys({
@@ -12,10 +12,6 @@ export const createUserValidationSchema = Joi.object()
       .required()
       .error(customValidationMessages),
     name: Joi.string()
-      .required()
-      .error(customValidationMessages),
-    password: Joi.string()
-      .regex(passwordRegExp)
       .required()
       .error(customValidationMessages),
   })

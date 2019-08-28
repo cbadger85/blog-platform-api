@@ -35,7 +35,7 @@ export const UserSchema = new Schema({
   },
   password: {
     type: String,
-    required: true,
+    default: uuid(),
   },
   permissions: {
     type: [String],
@@ -44,8 +44,14 @@ export const UserSchema = new Schema({
     type: String,
     default: uuid(),
   },
-  resetPasswordId: String,
-  resetPasswordExpiration: Date,
+  resetPasswordId: {
+    type: String,
+    default: uuid(),
+  },
+  resetPasswordExpiration: {
+    type: Date,
+    default: Date.now() + 1000 * 60 * 60 * 24,
+  },
 });
 
 UserSchema.plugin(uniqueValidator);
