@@ -8,6 +8,7 @@ import {
   disableUser,
   getAllUsers,
   getUser,
+  getResetPasswordId,
 } from './controllers';
 import {
   changeEmailValidationSchema,
@@ -56,4 +57,10 @@ userRouter.put(
   '/:userId/disable',
   validate({ urlParams: userIdParamsValidation }),
   asyncErrorHandler(disableUser)
+);
+
+userRouter.get(
+  '/:userId/reset-password-id',
+  validate({ urlParams: userIdParamsValidation }),
+  asyncErrorHandler(getResetPasswordId)
 );

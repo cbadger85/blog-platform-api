@@ -1,14 +1,25 @@
-import { Request, Response } from 'express';
-import { sanitizeUser } from '../../utils';
-import { IUser } from '../types';
+import { NextFunction, Response } from 'express';
+import { IUserRequest } from '../../auth/types';
+import { Forbidden } from '../../utils/errors';
+import { IPermissions, IUser } from '../types';
 import { User } from '../User';
 
-export const getAllUsers = async (req: Request, res: Response) => {
+export const getAllUsers = async (
+  req: IUserRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!req.user.permissions.includes(IPermissions.USER_MANAGEMENT)) {
+    const error = new Forbidden();
+    return next(error);
+  }
+
   const users = (await User.find().lean()) as IUser[];
 
   return res.json(
     users.map(user => {
-      return sanitizeUser(user);
+      const { password, ...sanitizedUser } = user;
+      return sanitizedUser;
     })
   );
 };

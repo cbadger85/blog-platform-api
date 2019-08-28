@@ -4,3 +4,4 @@ export * from './getUser';
 export * from './changePassword';
 export * from './changeEmail';
 export * from './disableUser';
+export * from './getResetPasswordId';
