@@ -35,6 +35,9 @@ export const customValidationMessages = (
       case 'string.mongoObjectId':
         e.message = `Error, '${e.context!.key}' is an invalid ObjectId`;
         break;
+      case 'string.guid':
+        e.message = `Error, '${e.context!.key}' is not a valid ObjectId`;
+        break;
       default:
         break;
     }

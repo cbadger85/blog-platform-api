@@ -1,11 +1,10 @@
 import Joi from '@hapi/joi';
-import { customValidationMessages, mongoJoi } from '../../../utils';
+import { customValidationMessages } from '../../../utils';
 
 export const resetPasswordIdParamsValidation = Joi.object()
   .keys({
-    resetPasswordId: mongoJoi
-      .string()
-      .mongoObjectId()
+    resetPasswordId: Joi.string()
+      .uuid()
       .error(customValidationMessages),
   })
   .error(customValidationMessages);

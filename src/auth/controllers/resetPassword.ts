@@ -4,22 +4,23 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { User } from '../../user/User';
 import { sanitizeUser } from '../../utils';
 import { NotFound } from '../../utils/errors';
+import { IResetPassword } from '../types';
 
-export const requestResetPassword = async (
+export const resetPassword = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const { resetPasswordId } = req.params as ParamsDictionary;
-  const { password } = req.body; // add types
+  const { password } = req.body as IResetPassword;
   const user = await User.findOne({ resetPasswordId });
 
-  if (!user) {
+  if (!user || new Date() > user.resetPasswordExpiration) {
     const error = new NotFound('Error, no user found');
     return next(error);
   }
 
-  const hashedPassword = bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   const updatedUser = await User.findByIdAndUpdate(
     user.id,

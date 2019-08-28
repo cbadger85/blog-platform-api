@@ -10,6 +10,8 @@ export interface IUserModel extends Document {
   password: string;
   permissions: IPermissions[];
   sessionId: string;
+  resetPasswordId: string;
+  resetPasswordExpiration: Date;
 }
 
 export const UserSchema = new Schema({

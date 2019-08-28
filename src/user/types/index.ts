@@ -1,5 +1,5 @@
 export * from './IPermissions';
 export * from './IUser';
 export * from './IChangeEmail';
-export * from './IChangePasswordBody';
+export * from './IChangePassword';
 export * from './ISanitizedUser';

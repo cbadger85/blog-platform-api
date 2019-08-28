@@ -1,8 +1,8 @@
 import Express from 'express';
 import { validate } from '../middleware';
 import { asyncErrorHandler } from '../utils';
-import { login, logout } from './controllers';
-import { requestResetPassword } from './controllers/resetPassword';
+import { login, logout, resetPassword } from './controllers';
+import { requestResetPassword } from './controllers';
 import {
   requestResetPasswordValidationSchema,
   resetPasswordValidationSchema,
@@ -27,5 +27,5 @@ authRouter.post(
     body: resetPasswordValidationSchema,
     urlParams: resetPasswordIdParamsValidation,
   }),
-  asyncErrorHandler(requestResetPassword)
+  asyncErrorHandler(resetPassword)
 );

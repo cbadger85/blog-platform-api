@@ -4,7 +4,7 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { IUserRequest } from '../../auth/types';
 import { BadRequest, Forbidden, NotFound } from '../../utils/errors';
 import { sanitizeUser } from '../../utils';
-import { IChangePasswordBody } from '../types';
+import { IChangePassword } from '../types';
 import { User } from '../User';
 
 export const changePassword = async (
@@ -12,7 +12,7 @@ export const changePassword = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { currentPassword, password } = req.body as IChangePasswordBody;
+  const { currentPassword, password } = req.body as IChangePassword;
   const { userId } = req.params as ParamsDictionary;
   const user = await User.findById(userId);
 
