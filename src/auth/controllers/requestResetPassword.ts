@@ -1,6 +1,5 @@
 import { NextFunction, Response } from 'express';
-import { ParamsDictionary } from 'express-serve-static-core';
-import { sanitizeUser } from 'src/utils';
+import { sanitizeUser } from '../../utils';
 import uuid from 'uuid/v4';
 import { User } from '../../user/User';
 import { NotFound } from '../../utils/errors';
