@@ -14,7 +14,7 @@ export const login = async (
 
   const user = await User.findOne({ username }).lean();
 
-  if (!user || !user.sessionId) {
+  if (!user) {
     const error = new Unauthorized('Error, invalid credentials');
     return next(error);
   }

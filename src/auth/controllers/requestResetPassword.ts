@@ -1,5 +1,5 @@
 import { NextFunction, Response } from 'express';
-import { sanitizeUser } from '../../utils';
+import { sanitizeUser, randomPassword } from '../../utils';
 import uuid from 'uuid/v4';
 import { User } from '../../user/User';
 import { NotFound } from '../../utils/errors';
@@ -18,10 +18,13 @@ export const requestResetPassword = async (
     return next(error);
   }
 
+  const password = await randomPassword();
+
   const updatedUser = await User.findByIdAndUpdate(user.id, {
+    password,
     resetPasswordId: uuid(),
     resetPasswordExpiration: Date.now() + 1000 * 60 * 60 * 24,
   }).lean();
 
-  res.json(sanitizeUser(updatedUser));
+  return res.json(sanitizeUser(updatedUser));
 };

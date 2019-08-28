@@ -9,6 +9,7 @@ import {
   getAllUsers,
   getUser,
   getResetPasswordId,
+  disableRefreshToken,
 } from './controllers';
 import {
   changeEmailValidationSchema,
@@ -57,6 +58,12 @@ userRouter.put(
   '/:userId/disable',
   validate({ urlParams: userIdParamsValidation }),
   asyncErrorHandler(disableUser)
+);
+
+userRouter.put(
+  '/:userId/disable-refresh-token',
+  validate({ urlParams: userIdParamsValidation }),
+  asyncErrorHandler(disableRefreshToken)
 );
 
 userRouter.get(

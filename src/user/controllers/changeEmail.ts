@@ -34,5 +34,5 @@ export const changeEmail = async (
     { runValidators: true, context: 'query', new: true }
   ).lean();
 
-  res.json(sanitizeUser(updatedUser));
+  return res.json(sanitizeUser(updatedUser));
 };

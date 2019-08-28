@@ -30,5 +30,5 @@ export const resetPassword = async (
     { new: true }
   ).lean();
 
-  res.json(sanitizeUser(updatedUser));
+  return res.json(sanitizeUser(updatedUser));
 };

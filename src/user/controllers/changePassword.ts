@@ -43,5 +43,5 @@ export const changePassword = async (
     { new: true }
   ).lean();
 
-  res.json(sanitizeUser(updatedUser));
+  return res.json(sanitizeUser(updatedUser));
 };

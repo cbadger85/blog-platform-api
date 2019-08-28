@@ -35,7 +35,7 @@ export const UserSchema = new Schema({
   },
   password: {
     type: String,
-    default: uuid(),
+    required: true,
   },
   permissions: {
     type: [String],

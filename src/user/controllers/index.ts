@@ -5,3 +5,4 @@ export * from './changePassword';
 export * from './changeEmail';
 export * from './disableUser';
 export * from './getResetPasswordId';
+export * from './disableRefreshToken';
