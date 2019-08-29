@@ -13,6 +13,7 @@ import {
   getCurrentUser,
   changeUsername,
   changeBio,
+  changeName,
 } from './controllers';
 import {
   changeEmailValidationSchema,
@@ -20,6 +21,7 @@ import {
   createUserValidationSchema,
   changeUsernameValidationSchema,
   changeBioValidationSchema,
+  changeNameValidationSchema,
 } from './validationSchemas/body';
 import { userIdParamsValidation } from './validationSchemas/urlParams';
 
@@ -95,4 +97,13 @@ userRouter.put(
     urlParams: userIdParamsValidation,
   }),
   asyncErrorHandler(changeUsername as Handler)
+);
+
+userRouter.put(
+  '/:userId/name',
+  validate({
+    body: changeNameValidationSchema,
+    urlParams: userIdParamsValidation,
+  }),
+  asyncErrorHandler(changeName as Handler)
 );
