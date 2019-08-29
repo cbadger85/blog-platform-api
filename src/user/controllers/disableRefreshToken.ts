@@ -30,7 +30,12 @@ export const disableRefreshToken = async (
     user.id,
     { sessionId: uuid() },
     { new: true }
-  ).lean();
+  );
+
+  if (!updatedUser) {
+    const error = new NotFound('Error, user not found');
+    return next(error);
+  }
 
   return res.json(sanitizeUser(updatedUser));
 };

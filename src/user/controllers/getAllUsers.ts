@@ -1,7 +1,8 @@
 import { NextFunction, Response } from 'express';
 import { IUserRequest } from '../../auth/types';
+import { sanitizeUser } from '../../utils';
 import { Forbidden } from '../../utils/errors';
-import { IPermissions, IUser } from '../types';
+import { IPermissions } from '../types';
 import { User } from '../User';
 
 export const getAllUsers = async (
@@ -14,12 +15,11 @@ export const getAllUsers = async (
     return next(error);
   }
 
-  const users = (await User.find().lean()) as IUser[];
+  const users = await User.find();
 
   return res.json(
     users.map(user => {
-      const { password, ...sanitizedUser } = user;
-      return sanitizedUser;
+      return sanitizeUser(user);
     })
   );
 };

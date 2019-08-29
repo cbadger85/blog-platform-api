@@ -1,17 +1,24 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
-import { NotFound } from '../../utils/errors';
+import { IUserRequest } from 'src/auth/types';
 import { sanitizeUser } from '../../utils';
+import { NotFound, Forbidden } from '../../utils/errors';
 import { User } from '../User';
+import { IPermissions } from '../types';
 
 export const getUser = async (
-  req: Request,
+  req: IUserRequest,
   res: Response,
   next: NextFunction
 ) => {
   const { userId } = req.params as ParamsDictionary;
 
-  const user = await User.findById(userId).lean();
+  if (!req.user.permissions.includes(IPermissions.USER_MANAGEMENT)) {
+    const error = new Forbidden();
+    return next(error);
+  }
+
+  const user = await User.findById(userId);
 
   if (!user) {
     const error = new NotFound('Error, no user found');

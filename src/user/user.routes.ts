@@ -10,6 +10,7 @@ import {
   getUser,
   getResetPasswordId,
   disableRefreshToken,
+  getCurrentUser,
 } from './controllers';
 import {
   changeEmailValidationSchema,
@@ -29,6 +30,8 @@ userRouter.post(
   validate({ body: createUserValidationSchema }),
   asyncErrorHandler(createUser)
 );
+
+userRouter.get('/current-user', asyncErrorHandler(getCurrentUser));
 
 userRouter.get(
   '/:userId',

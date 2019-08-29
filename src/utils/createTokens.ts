@@ -9,7 +9,7 @@ interface createdTokens {
 export const createTokens = (user: IUserModel): createdTokens => {
   const accessToken = jwt.sign(
     {
-      id: user.id,
+      id: user._id,
       name: user.name,
       permissions: user.permissions,
     },

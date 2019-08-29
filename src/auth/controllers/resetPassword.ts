@@ -13,6 +13,7 @@ export const resetPassword = async (
 ) => {
   const { resetPasswordId } = req.params as ParamsDictionary;
   const { password } = req.body as IResetPassword;
+
   const user = await User.findOne({ resetPasswordId });
 
   if (!user || new Date() > user.resetPasswordExpiration) {
@@ -28,7 +29,12 @@ export const resetPassword = async (
       password: hashedPassword,
     },
     { new: true }
-  ).lean();
+  );
 
-  return res.json(sanitizeUser(updatedUser));
+  if (!updatedUser) {
+    const error = new NotFound('Error, no user found');
+    return next(error);
+  }
+
+  return res.json(null);
 };

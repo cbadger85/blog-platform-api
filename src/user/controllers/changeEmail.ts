@@ -32,7 +32,12 @@ export const changeEmail = async (
     userId,
     { email },
     { runValidators: true, context: 'query', new: true }
-  ).lean();
+  );
+
+  if (!updatedUser) {
+    const error = new NotFound('Error, no user found');
+    return next(error);
+  }
 
   return res.json(sanitizeUser(updatedUser));
 };

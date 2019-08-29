@@ -12,9 +12,9 @@ export const login = async (
 ) => {
   const { username, password } = req.body as ILogin;
 
-  const user = await User.findOne({ username }).lean();
+  const user = await User.findOne({ username });
 
-  if (!user) {
+  if (!user || !user.sessionId) {
     const error = new Unauthorized('Error, invalid credentials');
     return next(error);
   }

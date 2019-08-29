@@ -19,7 +19,6 @@ export const getUserFromTokens = () => {
           .ACCESS_TOKEN_SECRET as string) as IAccessToken;
 
         req.user = {
-          name: accessTokenData.name,
           id: accessTokenData.id,
           permissions: accessTokenData.permissions,
         };
@@ -32,7 +31,7 @@ export const getUserFromTokens = () => {
       const refreshTokenData = jwt.verify(refreshToken, process.env
         .REFRESH_TOKEN_SECRET as string) as IRefreshToken;
 
-      const user = await User.findById(refreshTokenData.id);
+      const user = await User.findById(refreshTokenData.id).lean();
 
       if (!user) {
         return next();
@@ -57,7 +56,6 @@ export const getUserFromTokens = () => {
       });
 
       req.user = {
-        name: user.name,
         id: user.id,
         permissions: user.permissions,
       };

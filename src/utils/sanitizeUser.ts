@@ -1,13 +1,8 @@
-import { IUser, ISanitizedUser } from '../user/types';
+import { ISanitizedUser } from '../user/types';
+import { IUserModel } from '../user/User';
 
-export const sanitizeUser = (user: IUser): ISanitizedUser => {
-  const {
-    password,
-    sessionId,
-    resetPasswordId,
-    resetPasswordExpiration,
-    ...sanitizedUser
-  } = user;
+export const sanitizeUser = (user: IUserModel): ISanitizedUser => {
+  const { id, name, email, username, permissions, sessionId } = user;
 
-  return sanitizedUser;
+  return { id, name, email, username, permissions, sessionId };
 };

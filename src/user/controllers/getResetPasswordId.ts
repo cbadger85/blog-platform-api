@@ -24,5 +24,9 @@ export const getResetPasswordId = async (
     return next(error);
   }
 
-  return res.json({ id: user.id, resetPasswordId: user.resetPasswordId });
+  return res.json({
+    id: user.id,
+    resetPasswordId: user.resetPasswordId,
+    resetPasswordExpiratio: user.resetPasswordExpiration,
+  });
 };

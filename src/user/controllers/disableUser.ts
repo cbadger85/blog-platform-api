@@ -25,13 +25,16 @@ export const disableUser = async (
     return next(error);
   }
 
-  const password = await randomPassword();
-
   const updatedUser = await User.findByIdAndUpdate(
     userId,
-    { password },
+    { sessionId: null },
     { new: true }
-  ).lean();
+  );
+
+  if (!updatedUser) {
+    const error = new NotFound('Error, no user found');
+    return next(error);
+  }
 
   return res.json(sanitizeUser(updatedUser));
 };

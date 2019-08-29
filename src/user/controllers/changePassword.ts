@@ -41,7 +41,12 @@ export const changePassword = async (
       password: newPassword,
     },
     { new: true }
-  ).lean();
+  );
+
+  if (!updatedUser) {
+    const error = new NotFound('Error, no user found');
+    return next(error);
+  }
 
   return res.json(sanitizeUser(updatedUser));
 };
