@@ -7,4 +7,5 @@ export interface ISanitizedUser {
   email: string;
   permissions: IPermissions[];
   sessionId: string;
+  bio: string;
 }

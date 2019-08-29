@@ -12,6 +12,7 @@ export interface IUserModel extends Document {
   sessionId: string;
   resetPasswordId: string;
   resetPasswordExpiration: Date;
+  bio: string;
 }
 
 export const UserSchema = new Schema({
@@ -52,6 +53,7 @@ export const UserSchema = new Schema({
     type: Date,
     default: Date.now() + 1000 * 60 * 60 * 24,
   },
+  bio: String,
 });
 
 UserSchema.plugin(uniqueValidator);

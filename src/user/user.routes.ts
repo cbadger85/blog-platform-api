@@ -12,12 +12,14 @@ import {
   disableRefreshToken,
   getCurrentUser,
   changeUsername,
+  changeBio,
 } from './controllers';
 import {
   changeEmailValidationSchema,
   changePasswordValidationSchema,
   createUserValidationSchema,
   changeUsernameValidationSchema,
+  changeBioValidationSchema,
 } from './validationSchemas/body';
 import { userIdParamsValidation } from './validationSchemas/urlParams';
 
@@ -57,6 +59,15 @@ userRouter.put(
     urlParams: userIdParamsValidation,
   }),
   asyncErrorHandler(changeEmail as Handler)
+);
+
+userRouter.put(
+  '/:userId/bio',
+  validate({
+    body: changeBioValidationSchema,
+    urlParams: userIdParamsValidation,
+  }),
+  asyncErrorHandler(changeBio as Handler)
 );
 
 userRouter.put(

@@ -8,3 +8,4 @@ export * from './getResetPasswordId';
 export * from './disableRefreshToken';
 export * from './getCurrentUser';
 export * from './changeUsername';
+export * from './changeBio';
