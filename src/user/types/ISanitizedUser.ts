@@ -8,4 +8,5 @@ export interface ISanitizedUser {
   permissions: IPermissions[];
   sessionId: string;
   bio: string;
+  gravatar: string;
 }

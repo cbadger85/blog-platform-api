@@ -2,17 +2,19 @@ import { Document, model, Model, Schema } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 import uuid from 'uuid/v4';
 import { IPermissions } from './types';
+import md5 from 'md5';
 
 export interface IUserModel extends Document {
   name: string;
   username: string;
   email: string;
+  bio: string;
   password: string;
   permissions: IPermissions[];
   sessionId: string;
   resetPasswordId: string;
   resetPasswordExpiration: Date;
-  bio: string;
+  gravatar: string;
 }
 
 export const UserSchema = new Schema({
@@ -33,6 +35,7 @@ export const UserSchema = new Schema({
     required: true,
     trim: true,
     uniqueCaseInsensitive: true,
+    lowercase: true,
   },
   password: {
     type: String,
@@ -53,7 +56,15 @@ export const UserSchema = new Schema({
     type: Date,
     default: Date.now() + 1000 * 60 * 60 * 24,
   },
-  bio: String,
+  bio: {
+    type: String,
+    trim: true,
+  },
+});
+
+UserSchema.virtual('gravatar').get(function(this: IUserModel) {
+  const hash = md5(this.email);
+  return `https://gravatar.com/avatar/${hash}?s=200&r=pg&d=retro`;
 });
 
 UserSchema.plugin(uniqueValidator);
