@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, Handler } from 'express';
 
-export const asyncErrorHandler = (fn: Function) => {
+export const asyncErrorHandler = (fn: Handler) => {
   return (req: Request, res: Response, next: NextFunction) => {
     return fn(req, res, next).catch(next);
   };

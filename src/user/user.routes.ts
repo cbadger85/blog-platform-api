@@ -11,11 +11,13 @@ import {
   getResetPasswordId,
   disableRefreshToken,
   getCurrentUser,
+  changeUsername,
 } from './controllers';
 import {
   changeEmailValidationSchema,
   changePasswordValidationSchema,
   createUserValidationSchema,
+  changeUsernameValidationSchema,
 } from './validationSchemas/body';
 import { userIdParamsValidation } from './validationSchemas/urlParams';
 
@@ -23,7 +25,7 @@ export const userRouter = Express.Router();
 
 userRouter.use(requireAuthentication() as Handler);
 
-userRouter.get('/', asyncErrorHandler(getAllUsers));
+userRouter.get('/', asyncErrorHandler(getAllUsers as Handler));
 
 userRouter.post(
   '/',
@@ -31,12 +33,12 @@ userRouter.post(
   asyncErrorHandler(createUser)
 );
 
-userRouter.get('/current-user', asyncErrorHandler(getCurrentUser));
+userRouter.get('/current-user', asyncErrorHandler(getCurrentUser as Handler));
 
 userRouter.get(
   '/:userId',
   validate({ urlParams: userIdParamsValidation }),
-  asyncErrorHandler(getUser)
+  asyncErrorHandler(getUser as Handler)
 );
 
 userRouter.put(
@@ -45,7 +47,7 @@ userRouter.put(
     body: changePasswordValidationSchema,
     urlParams: userIdParamsValidation,
   }),
-  asyncErrorHandler(changePassword)
+  asyncErrorHandler(changePassword as Handler)
 );
 
 userRouter.put(
@@ -54,23 +56,32 @@ userRouter.put(
     body: changeEmailValidationSchema,
     urlParams: userIdParamsValidation,
   }),
-  asyncErrorHandler(changeEmail)
+  asyncErrorHandler(changeEmail as Handler)
 );
 
 userRouter.put(
   '/:userId/disable',
   validate({ urlParams: userIdParamsValidation }),
-  asyncErrorHandler(disableUser)
+  asyncErrorHandler(disableUser as Handler)
 );
 
 userRouter.put(
   '/:userId/disable-refresh-token',
   validate({ urlParams: userIdParamsValidation }),
-  asyncErrorHandler(disableRefreshToken)
+  asyncErrorHandler(disableRefreshToken as Handler)
 );
 
 userRouter.get(
   '/:userId/reset-password-id',
   validate({ urlParams: userIdParamsValidation }),
-  asyncErrorHandler(getResetPasswordId)
+  asyncErrorHandler(getResetPasswordId as Handler)
+);
+
+userRouter.put(
+  '/:userId/username',
+  validate({
+    body: changeUsernameValidationSchema,
+    urlParams: userIdParamsValidation,
+  }),
+  asyncErrorHandler(changeUsername as Handler)
 );

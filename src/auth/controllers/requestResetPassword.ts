@@ -1,11 +1,11 @@
-import { NextFunction, Response } from 'express';
+import { NextFunction, Response, Request } from 'express';
 import uuid from 'uuid/v4';
 import { User } from '../../user/User';
 import { NotFound } from '../../utils/errors';
 import { IRequestResetPassword, IUserRequest } from '../types';
 
 export const requestResetPassword = async (
-  req: IUserRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {

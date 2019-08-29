@@ -12,6 +12,7 @@ import {
 } from './middleware';
 import { userRouter } from './user/user.routes';
 import { asyncErrorHandler, customValidationMessages, mongoJoi } from './utils';
+import { Handler } from 'express-serve-static-core';
 
 export const app = Express();
 
@@ -37,7 +38,7 @@ app.get('/hello/:id', validate({ urlParams: idValidation }), (req, res) => {
   res.send('success');
 });
 
-app.use(asyncErrorHandler(getUserFromTokens()));
+app.use(asyncErrorHandler(getUserFromTokens() as Handler));
 
 app.use('/users', userRouter);
 app.use('/auth', authRouter);
