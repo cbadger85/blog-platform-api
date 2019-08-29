@@ -17,20 +17,17 @@ export const changePassword = async (
   const user = await User.findById(userId);
 
   if (!user) {
-    const error = new NotFound('Error, no user found');
-    return next(error);
+    return next(new NotFound('Error, no user found'));
   }
 
   if (user.id !== userId) {
-    const error = new Forbidden();
-    return next(error);
+    return next(new Forbidden());
   }
 
   const isValid = await bcrypt.compare(currentPassword, user.password);
 
   if (!isValid) {
-    const error = new BadRequest('Invalid password');
-    return next(error);
+    return next(new BadRequest('Invalid password'));
   }
 
   const newPassword = await bcrypt.hash(password, 10);
@@ -44,8 +41,7 @@ export const changePassword = async (
   );
 
   if (!updatedUser) {
-    const error = new NotFound('Error, no user found');
-    return next(error);
+    return next(new NotFound('Error, no user found'));
   }
 
   return res.json(sanitizeUser(updatedUser));

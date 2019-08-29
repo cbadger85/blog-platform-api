@@ -1,8 +1,8 @@
-import { NextFunction, Response, Request } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import uuid from 'uuid/v4';
 import { User } from '../../user/User';
 import { NotFound } from '../../utils/errors';
-import { IRequestResetPassword, IUserRequest } from '../types';
+import { IRequestResetPassword } from '../types';
 
 export const requestResetPassword = async (
   req: Request,
@@ -13,8 +13,7 @@ export const requestResetPassword = async (
   const user = await User.findOne({ email });
 
   if (!user) {
-    const error = new NotFound('Error, no user found');
-    return next(error);
+    return next(new NotFound('Error, no user found'));
   }
 
   const updatedUser = await User.findByIdAndUpdate(user.id, {
@@ -24,8 +23,7 @@ export const requestResetPassword = async (
 
   if (!updatedUser) {
     if (!user) {
-      const error = new NotFound('Error, no user found');
-      return next(error);
+      return next(new NotFound('Error, no user found'));
     }
   }
 

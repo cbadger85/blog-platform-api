@@ -16,16 +16,14 @@ export const changeEmail = async (
   const user = await User.findById(userId);
 
   if (!user) {
-    const error = new NotFound('Error, no user found');
-    return next(error);
+    return next(new NotFound('Error, no user found'));
   }
 
   if (
     user.id !== userId ||
     !req.user.permissions.includes(IPermissions.USER_MANAGEMENT)
   ) {
-    const error = new Forbidden();
-    return next(error);
+    return next(new Forbidden());
   }
 
   const updatedUser = await User.findByIdAndUpdate(
@@ -35,8 +33,7 @@ export const changeEmail = async (
   );
 
   if (!updatedUser) {
-    const error = new NotFound('Error, no user found');
-    return next(error);
+    return next(new NotFound('Error, no user found'));
   }
 
   return res.json(sanitizeUser(updatedUser));

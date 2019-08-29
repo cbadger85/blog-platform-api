@@ -15,15 +15,13 @@ export const login = async (
   const user = await User.findOne({ username });
 
   if (!user || !user.sessionId) {
-    const error = new Unauthorized('Error, invalid credentials');
-    return next(error);
+    return next(new Unauthorized('Error, invalid credentials'));
   }
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
 
   if (!isPasswordValid) {
-    const error = new Unauthorized('Error, invalid credentials');
-    return next(error);
+    return next(new Unauthorized('Error, invalid credentials'));
   }
 
   const { accessToken, refreshToken } = createTokens(user);

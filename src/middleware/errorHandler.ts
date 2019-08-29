@@ -6,8 +6,7 @@ import colors from 'colors/safe';
 import { asyncFiglet } from '../utils';
 
 const resourceNotFound = (req: Request, res: Response, next: NextFunction) => {
-  const err = new NotFound('Error, resource not found');
-  return next(err);
+  return next(new NotFound('Error, resource not found'));
 };
 
 const logError = async (

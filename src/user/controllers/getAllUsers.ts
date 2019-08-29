@@ -11,8 +11,7 @@ export const getAllUsers = async (
   next: NextFunction
 ) => {
   if (!req.user.permissions.includes(IPermissions.USER_MANAGEMENT)) {
-    const error = new Forbidden();
-    return next(error);
+    return next(new Forbidden());
   }
 
   const users = await User.find();

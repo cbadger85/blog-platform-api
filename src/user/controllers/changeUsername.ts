@@ -15,15 +15,13 @@ export const changeUsername = async (
   const { userId } = req.params as ParamsDictionary;
 
   if (!req.user.permissions.includes(IPermissions.USER_MANAGEMENT)) {
-    const error = new Forbidden();
-    return next(error);
+    return next(new Forbidden());
   }
 
   const user = await User.findById(userId);
 
   if (!user) {
-    const error = new NotFound('Error, no user found');
-    return next(error);
+    return next(new NotFound('Error, no user found'));
   }
 
   const updatedUser = await User.findByIdAndUpdate(
@@ -33,8 +31,7 @@ export const changeUsername = async (
   );
 
   if (!updatedUser) {
-    const error = new NotFound('Error, no user found');
-    return next(error);
+    return next(new NotFound('Error, no user found'));
   }
 
   return res.json(sanitizeUser(updatedUser));

@@ -12,8 +12,7 @@ export const getCurrentUser = async (
   const user = await User.findById(req.user.id);
 
   if (!user) {
-    const error = new NotFound('Error, no user found');
-    return next(error);
+    return next(new NotFound('Error, no user found'));
   }
 
   return res.json(sanitizeUser(user));

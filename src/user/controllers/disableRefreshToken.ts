@@ -15,15 +15,13 @@ export const disableRefreshToken = async (
   const { userId } = req.params as ParamsDictionary;
 
   if (!req.user.permissions.includes(IPermissions.USER_MANAGEMENT)) {
-    const error = new Forbidden();
-    return next(error);
+    return next(new Forbidden());
   }
 
   const user = await User.findById(userId);
 
   if (!user) {
-    const error = new NotFound('Error, user not found');
-    return next(error);
+    return next(new NotFound('Error, user not found'));
   }
 
   const updatedUser = await User.findByIdAndUpdate(
@@ -33,8 +31,7 @@ export const disableRefreshToken = async (
   );
 
   if (!updatedUser) {
-    const error = new NotFound('Error, user not found');
-    return next(error);
+    return next(new NotFound('Error, user not found'));
   }
 
   return res.json(sanitizeUser(updatedUser));

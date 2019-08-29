@@ -5,8 +5,7 @@ import { Unauthorized } from '../utils/errors';
 export const requireAuthentication = () => {
   return (req: IUserRequest, res: Response, next: NextFunction) => {
     if (!req.user) {
-      const error = new Unauthorized();
-      return next(error);
+      return next(new Unauthorized());
     }
 
     return next();
