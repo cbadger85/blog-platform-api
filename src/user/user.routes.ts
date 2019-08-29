@@ -35,7 +35,7 @@ userRouter.post(
   asyncErrorHandler(createUser)
 );
 
-userRouter.get('/current-user', asyncErrorHandler(getCurrentUser as Handler));
+userRouter.get('/current', asyncErrorHandler(getCurrentUser as Handler));
 
 userRouter.get(
   '/:userId',

@@ -20,7 +20,7 @@ export const changePassword = async (
     return next(new NotFound('Error, no user found'));
   }
 
-  if (user.id !== userId) {
+  if (req.user.id !== userId) {
     return next(new Forbidden());
   }
 
@@ -37,7 +37,7 @@ export const changePassword = async (
     {
       password: newPassword,
     },
-    { new: true }
+    { runValidators: true, new: true }
   );
 
   if (!updatedUser) {

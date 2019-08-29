@@ -17,21 +17,15 @@ export const disableUser = async (
     return next(new Forbidden());
   }
 
-  const user = await User.findById(userId);
+  const user = await User.findByIdAndUpdate(
+    userId,
+    { sessionId: null },
+    { runValidators: true, new: true }
+  );
 
   if (!user) {
     return next(new NotFound('Error, no user found'));
   }
 
-  const updatedUser = await User.findByIdAndUpdate(
-    userId,
-    { sessionId: null },
-    { new: true }
-  );
-
-  if (!updatedUser) {
-    return next(new NotFound('Error, no user found'));
-  }
-
-  return res.json(sanitizeUser(updatedUser));
+  return res.json(sanitizeUser(user));
 };

@@ -18,25 +18,19 @@ export const changeUserProperty = (prop: string) => async (
     return next(new Forbidden());
   }
 
-  const user = await User.findById(userId);
-
-  if (!user) {
-    return next(new NotFound('Error, no user found'));
-  }
-
-  if (!user.get(prop)) {
+  if (!User.schema.path(prop)) {
     return next(new Error('Error, no key found'));
   }
 
-  const updatedUser = await User.findByIdAndUpdate(
+  const user = await User.findByIdAndUpdate(
     userId,
     { [prop]: value },
     { runValidators: true, context: 'query', new: true }
   );
 
-  if (!updatedUser) {
+  if (!user) {
     return next(new NotFound('Error, no user found'));
   }
 
-  return res.json(sanitizeUser(updatedUser));
+  return res.json(sanitizeUser(user));
 };

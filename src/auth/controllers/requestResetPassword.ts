@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import uuid from 'uuid/v4';
 import { User } from '../../user/User';
-import { NotFound } from '../../utils/errors';
 import { IRequestResetPassword } from '../types';
 
 export const requestResetPassword = async (
@@ -10,22 +9,14 @@ export const requestResetPassword = async (
   next: NextFunction
 ) => {
   const { email } = req.body as IRequestResetPassword;
-  const user = await User.findOne({ email });
 
-  if (!user) {
-    return next(new NotFound('Error, no user found'));
-  }
-
-  const updatedUser = await User.findByIdAndUpdate(user.id, {
-    resetPasswordId: uuid(),
-    resetPasswordExpiration: Date.now() + 1000 * 60 * 60 * 24,
-  }).lean();
-
-  if (!updatedUser) {
-    if (!user) {
-      return next(new NotFound('Error, no user found'));
+  await User.findOneAndUpdate(
+    { email },
+    {
+      resetPasswordId: uuid(),
+      resetPasswordExpiration: Date.now() + 1000 * 60 * 60 * 24,
     }
-  }
+  );
 
   return res.json(null);
 };

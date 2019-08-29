@@ -18,21 +18,15 @@ export const disableRefreshToken = async (
     return next(new Forbidden());
   }
 
-  const user = await User.findById(userId);
+  const user = await User.findByIdAndUpdate(
+    userId,
+    { sessionId: uuid() },
+    { runValidators: true, new: true }
+  );
 
   if (!user) {
     return next(new NotFound('Error, user not found'));
   }
 
-  const updatedUser = await User.findByIdAndUpdate(
-    user.id,
-    { sessionId: uuid() },
-    { new: true }
-  );
-
-  if (!updatedUser) {
-    return next(new NotFound('Error, user not found'));
-  }
-
-  return res.json(sanitizeUser(updatedUser));
+  return res.json(sanitizeUser(user));
 };
