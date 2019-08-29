@@ -21,6 +21,8 @@ export const UserSchema = new Schema({
   name: {
     type: String,
     trim: true,
+    minlength: 2,
+    maxlength: 25,
   },
   username: {
     type: String,
@@ -28,6 +30,8 @@ export const UserSchema = new Schema({
     trim: true,
     required: true,
     uniqueCaseInsensitive: true,
+    minlength: 2,
+    maxlength: 15,
   },
   email: {
     type: String,
@@ -36,6 +40,7 @@ export const UserSchema = new Schema({
     trim: true,
     uniqueCaseInsensitive: true,
     lowercase: true,
+    maxlength: 20,
   },
   password: {
     type: String,
@@ -59,6 +64,7 @@ export const UserSchema = new Schema({
   bio: {
     type: String,
     trim: true,
+    maxlength: 250,
   },
 });
 

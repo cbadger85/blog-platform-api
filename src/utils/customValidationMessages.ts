@@ -38,6 +38,16 @@ export const customValidationMessages = (
       case 'string.guid':
         e.message = `Error, '${e.context!.key}' is not a valid ObjectId`;
         break;
+      case 'string.min':
+        e.message = `Error, '${e.context!.key}' must be at least ${
+          e.context!.limit
+        } characters long`;
+        break;
+      case 'string.max':
+        e.message = `Error, '${e.context!.key}' must be no more than ${
+          e.context!.limit
+        } characters long`;
+        break;
       default:
         break;
     }
