@@ -2,26 +2,24 @@ import Express, { Handler } from 'express';
 import { requireAuthentication, validate } from '../middleware';
 import { asyncErrorHandler } from '../utils';
 import {
-  changeEmail,
   changePassword,
+  changeUserProperty,
+  changeUserPropertyAdmin,
   createUser,
+  disableRefreshToken,
   disableUser,
   getAllUsers,
-  getUser,
-  getResetPasswordId,
-  disableRefreshToken,
   getCurrentUser,
-  changeUsername,
-  changeBio,
-  changeName,
+  getResetPasswordId,
+  getUser,
 } from './controllers';
 import {
-  changeEmailValidationSchema,
-  changePasswordValidationSchema,
-  createUserValidationSchema,
-  changeUsernameValidationSchema,
   changeBioValidationSchema,
+  changeEmailValidationSchema,
   changeNameValidationSchema,
+  changePasswordValidationSchema,
+  changeUsernameValidationSchema,
+  createUserValidationSchema,
 } from './validationSchemas/body';
 import { userIdParamsValidation } from './validationSchemas/urlParams';
 
@@ -60,7 +58,7 @@ userRouter.put(
     body: changeEmailValidationSchema,
     urlParams: userIdParamsValidation,
   }),
-  asyncErrorHandler(changeEmail as Handler)
+  asyncErrorHandler(changeUserProperty('email') as Handler)
 );
 
 userRouter.put(
@@ -69,7 +67,7 @@ userRouter.put(
     body: changeBioValidationSchema,
     urlParams: userIdParamsValidation,
   }),
-  asyncErrorHandler(changeBio as Handler)
+  asyncErrorHandler(changeUserProperty('bio') as Handler)
 );
 
 userRouter.put(
@@ -96,7 +94,7 @@ userRouter.put(
     body: changeUsernameValidationSchema,
     urlParams: userIdParamsValidation,
   }),
-  asyncErrorHandler(changeUsername as Handler)
+  asyncErrorHandler(changeUserPropertyAdmin('username') as Handler)
 );
 
 userRouter.put(
@@ -105,5 +103,5 @@ userRouter.put(
     body: changeNameValidationSchema,
     urlParams: userIdParamsValidation,
   }),
-  asyncErrorHandler(changeName as Handler)
+  asyncErrorHandler(changeUserPropertyAdmin('name') as Handler)
 );
