@@ -12,6 +12,7 @@ import {
   getCurrentUser,
   getResetPasswordId,
   getUser,
+  getUserProfile,
 } from './controllers';
 import {
   changeBioValidationSchema,
@@ -24,6 +25,12 @@ import {
 import { userIdParamsValidation } from './validationSchemas/urlParams';
 
 export const userRouter = Express.Router();
+
+userRouter.get(
+  '/:userId/profile',
+  validate({ urlParams: userIdParamsValidation }),
+  asyncErrorHandler(getUserProfile as Handler)
+);
 
 userRouter.use(requireAuthentication() as Handler);
 

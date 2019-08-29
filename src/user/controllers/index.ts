@@ -8,3 +8,4 @@ export * from './disableRefreshToken';
 export * from './getCurrentUser';
 export * from './changeUserProperty';
 export * from './changeUserPropertyAdmin';
+export * from './getUserProfile';
