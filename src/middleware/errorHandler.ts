@@ -1,12 +1,21 @@
 import { NextFunction, Request, Response } from 'express';
-import { BaseError } from '../utils/errors';
+import { BaseError, Unauthorized, NotFound, Forbidden } from '../utils/errors';
 import { Error as MongooseError } from 'mongoose';
-import { NotFound } from '../utils/errors';
 import colors from 'colors/safe';
 import { asyncFiglet } from '../utils';
 
 const resourceNotFound = (req: Request, res: Response, next: NextFunction) => {
-  return next(new NotFound('Error, resource not found'));
+  return res.status(404).send(`
+    <html>
+      <head>
+        <title>Not Found</title>
+      </head>
+      <body>
+        <h1>404 - Not Found</h1>
+        <p>The resource you're looking for cannot be found</p>
+      </body>
+    </html>
+  `);
 };
 
 const logError = async (
@@ -21,6 +30,52 @@ const logError = async (
   console.error(colors.red((err as unknown) as string));
 
   return next(err);
+};
+
+const showUnauthorizedPage = async (
+  err: BaseError,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!(err instanceof Unauthorized)) {
+    return next(err);
+  }
+
+  return res.status(401).send(`
+  <html>
+    <head>
+      <title>Unauthorized</title>
+    </head>
+    <body>
+      <h1>401 - Unauthorized</h1>
+      <p>You are unauthorized to view this resource</p>
+    </body>
+  </html>
+`);
+};
+
+const showForbiddenPage = async (
+  err: BaseError,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!(err instanceof Forbidden)) {
+    return next(err);
+  }
+
+  return res.status(403).send(`
+  <html>
+    <head>
+      <title>Forbidden</title>
+    </head>
+    <body>
+      <h1>403 - Forbidden</h1>
+      <p>You are forbidden from this resource</p>
+    </body>
+  </html>
+`);
 };
 
 const mongooseValidationError = (
@@ -74,6 +129,8 @@ const generalErrorHandler = (
 export const errorHandlers = [
   resourceNotFound,
   logError,
+  showUnauthorizedPage,
+  showForbiddenPage,
   mongooseValidationError,
   listErrorsHandler,
   generalErrorHandler,
