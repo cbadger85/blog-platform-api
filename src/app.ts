@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 
-app.use(cors({ origin: process.env.ADMIN_UI_URL }));
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 
 app.use(logger());
 
