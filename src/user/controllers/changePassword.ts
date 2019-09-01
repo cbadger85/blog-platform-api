@@ -1,18 +1,18 @@
 import bcrypt from 'bcryptjs';
 import { NextFunction, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
-import { IUserRequest } from '../../auth/types';
+import { UserRequest } from '../../auth/types';
 import { BadRequest, Forbidden, NotFound } from '../../utils/errors';
 import { sanitizeUser } from '../../utils';
-import { IChangePassword } from '../types';
+import { ChangePassword } from '../types';
 import { User } from '../User';
 
 export const changePassword = async (
-  req: IUserRequest,
+  req: UserRequest,
   res: Response,
   next: NextFunction
-) => {
-  const { currentPassword, password } = req.body as IChangePassword;
+): Promise<void | Response> => {
+  const { currentPassword, password } = req.body as ChangePassword;
   const { userId } = req.params as ParamsDictionary;
   const user = await User.findById(userId);
 

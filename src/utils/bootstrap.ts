@@ -2,11 +2,11 @@ import bcrypt from 'bcryptjs';
 import 'colors';
 import colors from 'colors/safe';
 import mongoose from 'mongoose';
-import { IPermisssionsAccessLevel } from '../user/types';
+import { PermisssionsAccessLevel } from '../user/types';
 import { User } from '../user/User';
 import { asyncFiglet } from '../utils/asyncFiglet';
 
-(async function bootstrap() {
+(async function bootstrap(): Promise<void> {
   mongoose.Promise = global.Promise;
 
   const figlet = await asyncFiglet('Bootstraping...', {
@@ -55,9 +55,9 @@ import { asyncFiglet } from '../utils/asyncFiglet';
       permissions: {
         collections: [],
         accessLevel: [
-          IPermisssionsAccessLevel.USER_MANAGEMENT,
-          IPermisssionsAccessLevel.COLLECTIONS_EDITOR,
-          IPermisssionsAccessLevel.PAGES_EDITOR,
+          PermisssionsAccessLevel.USER_MANAGEMENT,
+          PermisssionsAccessLevel.COLLECTIONS_EDITOR,
+          PermisssionsAccessLevel.PAGES_EDITOR,
         ],
       },
     });

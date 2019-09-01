@@ -1,4 +1,4 @@
-import Joi from '@hapi/joi';
+import Joi, { Err } from '@hapi/joi';
 import mongoose from 'mongoose';
 
 export const mongoJoi = Joi.extend({
@@ -8,7 +8,7 @@ export const mongoJoi = Joi.extend({
   rules: [
     {
       name: 'mongoObjectId',
-      validate(params, value, state, prefs) {
+      validate(params: never, value: string, state, prefs): string | Err {
         if (mongoose.Types.ObjectId.isValid(value)) {
           return value;
         }

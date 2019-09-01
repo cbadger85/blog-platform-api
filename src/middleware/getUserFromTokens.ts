@@ -2,10 +2,14 @@ import { NextFunction, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { User } from '../user/User';
 import { createTokens } from '../utils';
-import { IAccessToken, IRefreshToken, IUserRequest } from '../auth/types';
+import { AccessToken, RefreshToken, UserRequest } from '../auth/types';
 
 export const getUserFromTokens = () => {
-  return async (req: IUserRequest, res: Response, next: NextFunction) => {
+  return async (
+    req: UserRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
     const accessToken = req.cookies['access-token'];
     const refreshToken = req.cookies['refresh-token'];
 
@@ -16,12 +20,12 @@ export const getUserFromTokens = () => {
     if (accessToken) {
       try {
         const accessTokenData = jwt.verify(accessToken, process.env
-          .ACCESS_TOKEN_SECRET as string) as IAccessToken;
+          .ACCESS_TOKEN_SECRET as string) as AccessToken;
 
         req.user = {
           id: accessTokenData.id,
           permissions: { ...accessTokenData.permissions },
-        } as IAccessToken;
+        } as AccessToken;
 
         return next();
       } catch (e) {}
@@ -29,7 +33,7 @@ export const getUserFromTokens = () => {
 
     try {
       const refreshTokenData = jwt.verify(refreshToken, process.env
-        .REFRESH_TOKEN_SECRET as string) as IRefreshToken;
+        .REFRESH_TOKEN_SECRET as string) as RefreshToken;
 
       const user = await User.findById(refreshTokenData.id).lean();
 
@@ -58,7 +62,7 @@ export const getUserFromTokens = () => {
       req.user = {
         id: user.id,
         permissions: { ...user.permissions },
-      } as IAccessToken;
+      } as AccessToken;
 
       return next();
     } catch (e) {

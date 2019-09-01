@@ -1,7 +1,7 @@
-import { ISanitizedUser } from '../user/types';
-import { IUserModel } from '../user/User';
+import { SanitizedUser } from '../user/types';
+import { UserModel } from '../user/User';
 
-export const sanitizeUser = (user: IUserModel): ISanitizedUser => {
+export const sanitizeUser = (user: UserModel): SanitizedUser => {
   const {
     id,
     name,

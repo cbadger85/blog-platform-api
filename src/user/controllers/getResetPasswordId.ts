@@ -1,20 +1,20 @@
 import { NextFunction, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
-import { IUserRequest } from '../../auth/types';
+import { UserRequest } from '../../auth/types';
 import { Forbidden, NotFound } from '../../utils/errors';
-import { IPermisssionsAccessLevel } from '../types';
+import { PermisssionsAccessLevel } from '../types';
 import { User } from '../User';
 
 export const getResetPasswordId = async (
-  req: IUserRequest,
+  req: UserRequest,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void | Response> => {
   const { userId } = req.params as ParamsDictionary;
 
   if (
     !req.user.permissions.accessLevel.includes(
-      IPermisssionsAccessLevel.USER_MANAGEMENT
+      PermisssionsAccessLevel.USER_MANAGEMENT
     )
   ) {
     return next(new Forbidden());

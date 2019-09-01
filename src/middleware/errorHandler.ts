@@ -1,10 +1,10 @@
-import { NextFunction, Request, Response } from 'express';
-import { BaseError, Unauthorized, NotFound, Forbidden } from '../utils/errors';
-import { Error as MongooseError } from 'mongoose';
 import colors from 'colors/safe';
+import { NextFunction, Request, Response } from 'express';
+import { Error as MongooseError } from 'mongoose';
 import { asyncFiglet } from '../utils';
+import { BaseError, Forbidden, Unauthorized } from '../utils/errors';
 
-const resourceNotFound = (req: Request, res: Response, next: NextFunction) => {
+const resourceNotFound = (req: Request, res: Response): Response => {
   return res.status(404).send(`
     <html>
       <head>
@@ -23,7 +23,7 @@ const logError = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   const errorFiglet = await asyncFiglet('Error', { font: 'Slant' });
 
   console.error(colors.red((errorFiglet as unknown) as string));
@@ -32,12 +32,12 @@ const logError = async (
   return next(err);
 };
 
-const showUnauthorizedPage = async (
+const showUnauthorizedPage = (
   err: BaseError,
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): void | Response => {
   if (!(err instanceof Unauthorized)) {
     return next(err);
   }
@@ -55,12 +55,12 @@ const showUnauthorizedPage = async (
 `);
 };
 
-const showForbiddenPage = async (
+const showForbiddenPage = (
   err: BaseError,
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): void | Response => {
   if (!(err instanceof Forbidden)) {
     return next(err);
   }
@@ -83,7 +83,7 @@ const mongooseValidationError = (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): void | Response => {
   if (!(err instanceof MongooseError.ValidationError)) {
     return next(err);
   }
@@ -101,7 +101,7 @@ const listErrorsHandler = (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): void | Response => {
   if (!err.errors) {
     return next(err);
   }
@@ -117,8 +117,8 @@ const generalErrorHandler = (
   err: BaseError,
   req: Request,
   res: Response,
-  next: NextFunction
-) => {
+  _next: NextFunction
+): void | Response => {
   res.status(err.statusCode || 500).json({
     statusCode: err.statusCode || 500,
     name: err.name,

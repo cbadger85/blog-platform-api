@@ -3,13 +3,13 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { User } from '../User';
 import { sanitizeUser } from '../../utils';
 import { NotFound } from '../../utils/errors';
-import { ISanitizedUser } from 'src/user/types';
+import { SanitizedUser } from 'src/user/types';
 
 export const getUserProfile = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void | Response> => {
   const { userId } = req.params as ParamsDictionary;
 
   const user = await User.findById(userId);
@@ -19,7 +19,7 @@ export const getUserProfile = async (
   }
 
   const { name, bio, gravatar } = sanitizeUser(user) as Pick<
-    ISanitizedUser,
+    SanitizedUser,
     'name' | 'bio' | 'gravatar'
   >;
 

@@ -3,14 +3,14 @@ import { NextFunction, Request, Response } from 'express';
 import { User } from '../../user/User';
 import { createTokens, sanitizeUser } from '../../utils';
 import { Unauthorized } from '../../utils/errors';
-import { ILogin } from '../types';
+import { Login } from '../types';
 
 export const login = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
-  const { username, password } = req.body as ILogin;
+): Promise<void | Response> => {
+  const { username, password } = req.body as Login;
 
   const user = await User.findOne({ username });
 

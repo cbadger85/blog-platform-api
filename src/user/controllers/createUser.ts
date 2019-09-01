@@ -1,21 +1,21 @@
 import { Response } from 'express';
-import { IUserRequest } from '../../auth/types';
+import { UserRequest } from '../../auth/types';
 import { randomPassword, sanitizeUser } from '../../utils';
-import { ICreateUser, IPermisssionsAccessLevel } from '../types';
+import { CreateUser, PermisssionsAccessLevel } from '../types';
 import { User } from '../User';
 import { NextFunction } from 'connect';
 import { Forbidden } from '../../utils/errors';
 
 export const createUser = async (
-  req: IUserRequest,
+  req: UserRequest,
   res: Response,
   next: NextFunction
-) => {
-  const user = req.body as ICreateUser;
+): Promise<void | Response> => {
+  const user = req.body as CreateUser;
 
   if (
     !req.user.permissions.accessLevel.includes(
-      IPermisssionsAccessLevel.USER_MANAGEMENT
+      PermisssionsAccessLevel.USER_MANAGEMENT
     )
   ) {
     return next(new Forbidden());

@@ -1,11 +1,11 @@
-import { IPermissions } from './IPermissions';
+import { Permissions } from './Permissions';
 
-export interface ISanitizedUser {
+export interface SanitizedUser {
   id: string;
   name: string;
   username: string;
   email: string;
-  permissions: IPermissions;
+  permissions: Permissions;
   sessionId: string;
   bio: string;
   gravatar: string;

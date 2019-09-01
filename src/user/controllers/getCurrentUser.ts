@@ -1,14 +1,14 @@
 import { Response, NextFunction } from 'express';
-import { IUserRequest } from 'src/auth/types';
+import { UserRequest } from 'src/auth/types';
 import { User } from '../User';
 import { sanitizeUser } from '../../utils';
 import { NotFound } from '../../utils/errors';
 
 export const getCurrentUser = async (
-  req: IUserRequest,
+  req: UserRequest,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void | Response> => {
   const user = await User.findById(req.user.id);
 
   if (!user) {

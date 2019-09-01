@@ -1,12 +1,12 @@
 import jwt from 'jsonwebtoken';
-import { IUserModel } from '../user/User';
+import { UserModel } from '../user/User';
 
-interface createdTokens {
+interface CreatedTokens {
   accessToken: string;
   refreshToken: string;
 }
 
-export const createTokens = (user: IUserModel): createdTokens => {
+export const createTokens = (user: UserModel): CreatedTokens => {
   const accessToken = jwt.sign(
     {
       id: user._id,

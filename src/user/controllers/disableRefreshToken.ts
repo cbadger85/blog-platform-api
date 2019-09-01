@@ -1,22 +1,22 @@
 import { NextFunction, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 import uuid from 'uuid/v4';
-import { IUserRequest } from '../../auth/types';
+import { UserRequest } from '../../auth/types';
 import { sanitizeUser } from '../../utils';
 import { Forbidden, NotFound } from '../../utils/errors';
-import { IPermisssionsAccessLevel } from '../types';
+import { PermisssionsAccessLevel } from '../types';
 import { User } from '../User';
 
 export const disableRefreshToken = async (
-  req: IUserRequest,
+  req: UserRequest,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void | Response> => {
   const { userId } = req.params as ParamsDictionary;
 
   if (
     !req.user.permissions.accessLevel.includes(
-      IPermisssionsAccessLevel.USER_MANAGEMENT
+      PermisssionsAccessLevel.USER_MANAGEMENT
     )
   ) {
     return next(new Forbidden());

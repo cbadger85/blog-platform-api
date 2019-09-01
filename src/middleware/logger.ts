@@ -5,7 +5,7 @@ export const logger = () => async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   const date = new Date();
   console.log(
     date.toDateString().yellow,

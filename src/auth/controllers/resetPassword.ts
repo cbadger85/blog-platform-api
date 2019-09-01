@@ -3,15 +3,15 @@ import { NextFunction, Request, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 import { User } from '../../user/User';
 import { NotFound } from '../../utils/errors';
-import { IResetPassword } from '../types';
+import { ResetPassword } from '../types';
 
 export const resetPassword = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void | Response> => {
   const { resetPasswordId } = req.params as ParamsDictionary;
-  const { password } = req.body as IResetPassword;
+  const { password } = req.body as ResetPassword;
 
   const user = await User.findOne({ resetPasswordId });
 

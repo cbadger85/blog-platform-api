@@ -1,0 +1,13 @@
+{
+  "eslint.enable": true,
+  "eslint.lintTask.enable": true,
+  "eslint.autoFixOnSave": true,
+  "eslint.lintTask.options": ". --ext .ts",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    { "language": "typescript", "autoFix": true },
+    { "language": "typescriptreact", "autoFix": true }
+  ],
+  "typescript.preferences.importModuleSpecifier": "non-relative"
+}

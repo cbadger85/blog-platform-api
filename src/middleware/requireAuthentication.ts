@@ -1,9 +1,9 @@
 import { NextFunction, Response } from 'express';
-import { IUserRequest } from 'src/auth/types';
+import { UserRequest } from 'src/auth/types';
 import { Unauthorized } from '../utils/errors';
 
 export const requireAuthentication = () => {
-  return (req: IUserRequest, res: Response, next: NextFunction) => {
+  return (req: UserRequest, res: Response, next: NextFunction): void => {
     if (!req.user) {
       return next(new Unauthorized());
     }

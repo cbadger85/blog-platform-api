@@ -26,6 +26,7 @@
     "md5": "^2.2.1",
     "mongoose": "^5.6.9",
     "mongoose-unique-validator": "^2.0.3",
+    "ts-optchain": "^0.1.8",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
@@ -43,9 +44,15 @@
     "@types/mongoose-unique-validator": "^1.0.2",
     "@types/supertest": "^2.0.8",
     "@types/uuid": "^3.4.5",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "eslint": "^6.3.0",
+    "eslint-config-prettier": "^6.1.0",
+    "eslint-plugin-prettier": "^3.1.0",
     "jest": "^24.9.0",
     "mongodb-memory-server": "^5.2.0",
     "nodemon": "^1.19.1",
+    "prettier": "^1.18.2",
     "supertest": "^4.0.2",
     "ts-jest": "^24.0.2",
     "ts-node": "^8.3.0",

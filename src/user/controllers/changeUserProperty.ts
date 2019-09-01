@@ -1,23 +1,23 @@
 import { NextFunction, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
-import { IUserRequest } from '../../auth/types';
+import { UserRequest } from '../../auth/types';
 import { sanitizeUser } from '../../utils';
 import { Forbidden, NotFound } from '../../utils/errors';
-import { IPermisssionsAccessLevel } from '../types';
+import { PermisssionsAccessLevel } from '../types';
 import { User } from '../User';
 
 export const changeUserProperty = (prop: string) => async (
-  req: IUserRequest,
+  req: UserRequest,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void | Response> => {
   const value = req.body[prop];
   const { userId } = req.params as ParamsDictionary;
 
   if (
     req.user.id !== userId ||
     !req.user.permissions.accessLevel.includes(
-      IPermisssionsAccessLevel.USER_MANAGEMENT
+      PermisssionsAccessLevel.USER_MANAGEMENT
     )
   ) {
     return next(new Forbidden());

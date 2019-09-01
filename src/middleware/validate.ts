@@ -1,9 +1,9 @@
-import { Request, Response, NextFunction } from 'express';
-import { Schema, ValidationErrorItem, ObjectSchema } from '@hapi/joi';
+import { ObjectSchema, ValidationErrorItem } from '@hapi/joi';
+import { NextFunction, Request, Response } from 'express';
 import { BadRequest } from '../utils/errors';
 
 export const validate = (schemas: ValidationSchemas) => {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return (req: Request, res: Response, next: NextFunction): void => {
     const bodyResult =
       schemas.body && schemas.body.validate(req.body, { abortEarly: false });
     const urlParamsResult =
