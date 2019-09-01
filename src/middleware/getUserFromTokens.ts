@@ -20,8 +20,8 @@ export const getUserFromTokens = () => {
 
         req.user = {
           id: accessTokenData.id,
-          permissions: accessTokenData.permissions,
-        };
+          permissions: { ...accessTokenData.permissions },
+        } as IAccessToken;
 
         return next();
       } catch (e) {}
@@ -57,8 +57,8 @@ export const getUserFromTokens = () => {
 
       req.user = {
         id: user.id,
-        permissions: user.permissions,
-      };
+        permissions: { ...user.permissions },
+      } as IAccessToken;
 
       return next();
     } catch (e) {

@@ -42,7 +42,7 @@ userRouter.post(
   '/',
   requireAuthentication() as Handler,
   validate({ body: createUserValidationSchema }),
-  asyncErrorHandler(createUser)
+  asyncErrorHandler(createUser as Handler)
 );
 
 userRouter.get(

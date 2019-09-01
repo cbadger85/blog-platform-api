@@ -2,9 +2,9 @@ import bcrypt from 'bcryptjs';
 import 'colors';
 import colors from 'colors/safe';
 import mongoose from 'mongoose';
-import { asyncFiglet } from '../utils/asyncFiglet';
-import { IPermissions } from '../user/types';
+import { IPermisssionsAccessLevel } from '../user/types';
 import { User } from '../user/User';
+import { asyncFiglet } from '../utils/asyncFiglet';
 
 (async function bootstrap() {
   mongoose.Promise = global.Promise;
@@ -52,7 +52,14 @@ import { User } from '../user/User';
       username,
       email,
       password: hashedPassword,
-      permissions: [IPermissions.USER_MANAGEMENT],
+      permissions: {
+        collections: [],
+        accessLevel: [
+          IPermisssionsAccessLevel.USER_MANAGEMENT,
+          IPermisssionsAccessLevel.COLLECTIONS_EDITOR,
+          IPermisssionsAccessLevel.PAGES_EDITOR,
+        ],
+      },
     });
 
     console.log(`${user.username} created successfully`.green);

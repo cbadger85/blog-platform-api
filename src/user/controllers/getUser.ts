@@ -2,9 +2,9 @@ import { NextFunction, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 import { IUserRequest } from 'src/auth/types';
 import { sanitizeUser } from '../../utils';
-import { NotFound, Forbidden } from '../../utils/errors';
+import { Forbidden, NotFound } from '../../utils/errors';
+import { IPermisssionsAccessLevel } from '../types';
 import { User } from '../User';
-import { IPermissions } from '../types';
 
 export const getUser = async (
   req: IUserRequest,
@@ -13,7 +13,11 @@ export const getUser = async (
 ) => {
   const { userId } = req.params as ParamsDictionary;
 
-  if (!req.user.permissions.includes(IPermissions.USER_MANAGEMENT)) {
+  if (
+    !req.user.permissions.accessLevel.includes(
+      IPermisssionsAccessLevel.USER_MANAGEMENT
+    )
+  ) {
     return next(new Forbidden());
   }
 

@@ -1,12 +1,22 @@
-export enum IPermissions {
-  USER_MANAGEMENT = 'USER_MANAGEMENT',
+export interface IPermissions {
+  collections: ICollectionPermissions[];
+  accessLevel: IPermisssionsAccessLevel[];
+}
+
+export interface ICollectionPermissions {
+  id: string;
+  accessLevel: ICollectionAccessLevel[];
+}
+
+export enum ICollectionAccessLevel {
+  VIEW_COLLECTION = 'VIEW_COLLECTION',
   CREATE_POST = 'CREATE_POST',
   PUBLISH_OWN_POST = 'PUBLISH_OWN_POST',
-  PUBLISH_ANY_POST = 'PUBLISH_ANY_POST',
-  EDIT_ANY_POST = 'EDIT_ANY_POST',
-  DELETE_OWN_POST = 'DELETE_OWN_POST',
-  DELETE_ANY_POST = 'DELETE_ANY_POST',
-  CREATE_PAGES = 'CREATE_PAGES',
-  EDIT_PAGES = 'EDIT_PAGES',
-  DELETE_PAGES = 'DELETE_PAGES',
+  COLLECTION_EDITOR = 'EDITOR',
+}
+
+export enum IPermisssionsAccessLevel {
+  USER_MANAGEMENT = 'USER_MANAGEMENT',
+  COLLECTIONS_EDITOR = 'COLLECTIONS_EDITOR',
+  PAGES_EDITOR = 'PAGES_EDITOR',
 }

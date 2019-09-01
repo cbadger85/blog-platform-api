@@ -2,7 +2,7 @@ import { NextFunction, Response } from 'express';
 import { IUserRequest } from '../../auth/types';
 import { sanitizeUser } from '../../utils';
 import { Forbidden } from '../../utils/errors';
-import { IPermissions } from '../types';
+import { IPermisssionsAccessLevel } from '../types';
 import { User } from '../User';
 
 export const getAllUsers = async (
@@ -10,7 +10,11 @@ export const getAllUsers = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (!req.user.permissions.includes(IPermissions.USER_MANAGEMENT)) {
+  if (
+    !req.user.permissions.accessLevel.includes(
+      IPermisssionsAccessLevel.USER_MANAGEMENT
+    )
+  ) {
     return next(new Forbidden());
   }
 

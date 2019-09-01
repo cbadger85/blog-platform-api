@@ -1,9 +1,9 @@
 import { NextFunction, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 import { IUserRequest } from '../../auth/types';
-import { sanitizeUser, randomPassword } from '../../utils';
+import { sanitizeUser } from '../../utils';
 import { Forbidden, NotFound } from '../../utils/errors';
-import { IPermissions } from '../types';
+import { IPermisssionsAccessLevel } from '../types';
 import { User } from '../User';
 
 export const disableUser = async (
@@ -13,7 +13,11 @@ export const disableUser = async (
 ) => {
   const { userId } = req.params as ParamsDictionary;
 
-  if (!req.user.permissions.includes(IPermissions.USER_MANAGEMENT)) {
+  if (
+    !req.user.permissions.accessLevel.includes(
+      IPermisssionsAccessLevel.USER_MANAGEMENT
+    )
+  ) {
     return next(new Forbidden());
   }
 
