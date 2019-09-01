@@ -48,7 +48,20 @@ export const UserSchema = new Schema({
   },
   //! needs a fixin
   permissions: {
-    type: [String],
+    accessLevel: {
+      type: [String],
+    },
+    collections: [
+      {
+        // needs to reference mongoId when collections are implemented
+        collectionId: {
+          type: String,
+        },
+        accessLevel: {
+          type: [String],
+        },
+      },
+    ],
   },
   sessionId: {
     type: String,
