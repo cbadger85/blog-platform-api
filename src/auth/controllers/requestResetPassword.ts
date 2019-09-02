@@ -23,5 +23,5 @@ export const requestResetPassword = async (
     return next(new NotFound('Error, no user found'));
   }
 
-  return res.json(null);
+  return res.sendStatus(204);
 };
